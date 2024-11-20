@@ -6,4 +6,3 @@ openpyxl
 streamlit
 beautifulsoup4
 aiohttp
-os

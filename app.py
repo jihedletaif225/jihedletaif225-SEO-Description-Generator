@@ -1,5 +1,6 @@
 
 
+
 import asyncio
 from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
@@ -127,7 +128,7 @@ def save_to_excel(data_list):
     for product_id, ref_code, seo_description in data_list:
         ws.append([product_id, ref_code, seo_description])
     # file_path = "seo_descriptions.xlsx"
-    file_path = os.path.join(os.path.expanduser("~"), "Downloads", "seo_descriptions.xlsx")
+    file_path = "/tmp/seo_descriptions.xlsx"
 
     wb.save(file_path)
     return file_path
@@ -163,8 +164,10 @@ if st.button("Generate Descriptions"):
                 seo_data.append((product_id, ref_code, seo_description))
             file_path = save_to_excel(seo_data)
             st.success(f"SEO Descriptions saved to {file_path}")
-            st.download_button("Download Excel File", file_path, file_name="seo_descriptions.xlsx")
+            with open(file_path, "rb") as file:
+                st.download_button("Download SEO Descriptions", file, file_name="seo_descriptions.xlsx")
 
+           
         asyncio.run(process_ids())
     else:
         st.warning("Please enter valid IDs!")

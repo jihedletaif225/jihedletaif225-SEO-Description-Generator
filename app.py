@@ -1,22 +1,13 @@
 
+
 import asyncio
-from playwright.async_api import async_playwright
-from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from openpyxl import Workbook
 import streamlit as st
 from bs4 import BeautifulSoup
 import aiohttp
-import asyncio
-import sys
-
-if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-
-
-# Load environment variables
-# load_dotenv()
+import os
 
 # LangChain Model Configuration
 parser = StrOutputParser()
@@ -135,7 +126,9 @@ def save_to_excel(data_list):
     ws.append(["Product ID", "Reference Code", "SEO-Optimized Description"])
     for product_id, ref_code, seo_description in data_list:
         ws.append([product_id, ref_code, seo_description])
-    file_path = "seo_descriptions.xlsx"
+    # file_path = "seo_descriptions.xlsx"
+    file_path = os.path.join(os.path.expanduser("~"), "Downloads", "seo_descriptions.xlsx")
+
     wb.save(file_path)
     return file_path
 
